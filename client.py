@@ -6,13 +6,17 @@ import socket               # Import socket module
 
 class Client:
 
-    ip = '127.0.1.1'
-    port = 0
-    global sock
 
     def __init__(self):
+        global sock,port,ip
         ip = raw_input("Enter you IP here : ")
         port = int(raw_input("Enter you Port here :"))
+
+        if ip is '':            #just for testing, should be delted later
+            ip = '192.168.178.30'
+        if port < 10:
+            port = 12345
+
         sock = socket.socket()
 
     def startClient(self):

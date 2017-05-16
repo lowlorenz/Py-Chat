@@ -9,16 +9,18 @@ class Server:
 
     host = '192.168.178.30'     # Adress of my RaspberryPi
     port = 12345                # Our standart port
-    sock = socket.socket(
-        socket.AF_INET,         # Internetzugang (also nicht Unix \0.0"/)
-        socket.SOCK_STREAM      # Verbindungsorientiertes Protokoll
-    )
+    sock = socket.socket()
     closed = False
     connections = []
     messages = []
 
 
-    def __init__(self):
+    def __init__(self, port = 12345):
+
+        sock = socket.socket(
+            socket.AF_INET,         # Internetzugang (also nicht Unix \0.0"/)
+            socket.SOCK_STREAM      # Verbindungsorientiertes Protokoll
+        )
         sock.bind((host, port))        # Bind to the port
         sock.listen(5)
 
@@ -44,5 +46,5 @@ class Server:
 
     def close(self):
         for c in connections:
-            c.close()
+            c[0].close()
         sock.close()
