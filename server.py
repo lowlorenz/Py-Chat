@@ -16,13 +16,9 @@ class Server:
 
 
     def __init__(self, port = 12345):
-
-        sock = socket.socket(
-            socket.AF_INET,         # Internetzugang (also nicht Unix \0.0"/)
-            socket.SOCK_STREAM      # Verbindungsorientiertes Protokoll
-        )
         sock.bind((host, port))        # Bind to the port
         sock.listen(5)
+        sock.settimeout(5)
 
     def getClosed(self):
         return closed
@@ -48,3 +44,6 @@ class Server:
         for c in connections:
             c[0].close()
         sock.close()
+
+    def getSocket(self):
+        return sock
