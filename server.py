@@ -5,29 +5,44 @@ import socket               # Import socket module
 
 class Server:
 
+    global host,port,sock,closed,connections,adresses,messages
+
     host = '192.168.178.30'     # Adress of my RaspberryPi
     port = 12345                # Our standart port
     sock = socket.socket(
         socket.AF_INET,         # Internetzugang (also nicht Unix \0.0"/)
         socket.SOCK_STREAM      # Verbindungsorientiertes Protokoll
     )
-    closed = false
+    closed = False
     connections = []
-    adresses = []
     messages = []
 
 
     def __init__(self):
-        s.bind((host, port))        # Bind to the port
-        s.listen(5)
-        while not closed:
-            c, addr = s.accept()    # Establish connection with client.
-            connections.append(c)
-            adresses.append(c)
-            messages.append(sock.recv(1024))
+        sock.bind((host, port))        # Bind to the port
+        sock.listen(5)
 
-    def getclosed(self):
+    def getClosed(self):
         return closed
 
     def setClosed(self, closed):
         closed = closed
+
+    def acceptSock(self):
+        c, addr = sock.accept()    # Establish connection with client.
+        connections.append((c,addr))
+
+    def printConnections(self):
+        for c in connections:
+            print c
+
+    def printMessages(self):
+        for c in connections:
+            message = c[0].recv(1024)
+            if message is not None:
+                print message
+
+    def close(self):
+        for c in connections:
+            c.close()
+        sock.close()

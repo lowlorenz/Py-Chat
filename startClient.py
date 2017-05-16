@@ -1,5 +1,7 @@
-import client
+import client,time
 
 c = client.Client()
 c.startClient()
-c.write("1")
+print("Have fun chatting")
+while True:
+    c.write(raw_input())
