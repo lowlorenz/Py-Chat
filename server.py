@@ -2,14 +2,32 @@
 
 import socket               # Import socket module
 
-s = socket.socket()         # Create a socket object
-host = socket.gethostname() # Get local machine name
-port = 12345                # Reserve a port for your service.
-s.bind((host, port))        # Bind to the port
 
-s.listen(5)                 # Now wait for client connection.
-while True:
-   c, addr = s.accept()     # Establish connection with client.
-   print 'Got connection from', addr
-   c.send('Thank you for connecting')
-   c.close()                # Close the connection
+class Server:
+
+    host = '192.168.178.30'     # Adress of my RaspberryPi
+    port = 12345                # Our standart port
+    sock = socket.socket(
+        socket.AF_INET,         # Internetzugang (also nicht Unix \0.0"/)
+        socket.SOCK_STREAM      # Verbindungsorientiertes Protokoll
+    )
+    closed = false
+    connections = []
+    adresses = []
+    messages = []
+
+
+    def __init__(self):
+        s.bind((host, port))        # Bind to the port
+        s.listen(5)
+        while not closed:
+            c, addr = s.accept()    # Establish connection with client.
+            connections.append(c)
+            adresses.append(c)
+            messages.append(sock.recv(1024))
+
+    def getclosed(self):
+        return closed
+
+    def setClosed(self, closed):
+        closed = closed
