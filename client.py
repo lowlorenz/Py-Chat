@@ -7,14 +7,13 @@ import socket               # Import socket module
 class Client:
 
 
-    def __init__(self):
+    def __init__(self, changeFlag):
         global sock,port,ip
-        ip = raw_input("Enter you IP here : ")
-        port = int(raw_input("Enter you Port here :"))
-
-        if ip is '':            #just for testing, should be delted later
-            ip = '192.168.178.30'
-        if port < 10:
+        if changeFlag:
+            ip = raw_input("Enter you IP here : ")
+            port = int(raw_input("Enter you Port here : "))
+        else:
+            ip = '192.168.178.32'
             port = 12345
 
         sock = socket.socket()
@@ -24,3 +23,6 @@ class Client:
 
     def write(self, message):
         sock.send(message)
+
+    def close(self):
+        sock.close()

@@ -1,7 +1,14 @@
-import server,time
+import server,time,socket
 
 serv = server.Server()
-serv.acceptSock()
 
 while(True):
-    serv.printMessages()
+    try:
+        serv.acceptSock()
+        serv.broadcastMessages()
+
+    except socket.timeout:          # Whenever acceptSock() doesn't add anything
+        pass                        # a Timeout Exception is thrown
+
+    except:
+        serv.close()
