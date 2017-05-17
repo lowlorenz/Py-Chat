@@ -1,35 +1,4 @@
-import client,time,socket,sys,thread
-
-def send():
-    try:
-        message = raw_input()
-        if message is "exit":
-            c.close()
-            done = True
-        else :
-            c.write(message)
-    except socket.timeout:
-        pass
-        break
-    except:
-        print "Something went wrong"
-        print sys.exc_info()
-        c.close()
-        done = True
-
-def recieve():
-    try:
-        incommingMessage = c.read()
-        print incommingMessage
-
-    except socket.timeout:
-        pass
-        break
-    except:
-        print "Something went wrong"
-        print sys.exc_info()
-        c.close()
-        done = True
+import client,time,socket,sys
 
 
 c = client.Client(False)
@@ -38,7 +7,7 @@ c.startClient()
 done = False
 
 print("Have fun chatting")
-while not done:
+while True:
     try:
         message = raw_input()
         if message is "exit":
@@ -46,15 +15,16 @@ while not done:
             done = True
         else :
             c.write(message)
-
         incommingMessage = c.read()
         print incommingMessage
 
     except socket.timeout:
         pass
-        break
+
+    except KeyboardInterrupt:
+        c.close()
+        exit()
     except:
         print "Something went wrong"
         print sys.exc_info()
         c.close()
-        done = True
