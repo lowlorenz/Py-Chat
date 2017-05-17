@@ -44,7 +44,7 @@ class Server:
                 message = c[0].recv(1024)
                 print message
                 for reciever in connections:
-                    if reciever[0] != c[0]:
+                    if reciever is not c:
                         reciever[0].send(message)
             except socket.timeout:
                 pass

@@ -9,6 +9,7 @@ while(True):
     except socket.timeout:          # Whenever acceptSock() doesn't add anything
         pass                        # a Timeout Exception is thrown
     except KeyboardInterrupt:
+        print "close server"
         serv.close()
         exit()
 
@@ -17,5 +18,6 @@ while(True):
     except socket.timeout:          # Whenever a timeout fires
         pass                        # a Timeout Exception is thrown
     except KeyboardInterrupt:
+        print "close server"
         serv.close()
         exit()
