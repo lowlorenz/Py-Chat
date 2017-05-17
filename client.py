@@ -22,7 +22,16 @@ class Client:
         sock.connect((ip,int(port)))
 
     def write(self, message):
-        sock.send(message)
+        try:
+            sock.send(message)
+        except socket.timeout:
+            pass
+
+    def read(self):
+        try:
+            return str(sock.recv(1024))
+        except socket.timeout:
+            pass
 
     def close(self):
         sock.close()

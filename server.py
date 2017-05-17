@@ -18,11 +18,13 @@ class Server:
     def __init__(self, port = 12345):
         sock.bind((host, port))        # Bind to the port
         sock.listen(5)
-        sock.settimeout(0.05)
+        sock.settimeout(0.5)
 
     def acceptSock(self):
         c, addr = sock.accept()    # Establish connection with client.
+        c.settimeout(0.5)
         connections.append((c,addr))
+        return (c, addr)
 
     def printConnections(self):
         for c in connections:
@@ -32,27 +34,24 @@ class Server:
         for c in connections:
             try:
                 message = c[0].recv(1024)
+                print message
             except socket.timeout:
                 pass
-            print message
 
     def broadcastMessages(self):
         for c in connections:
             try:
                 message = c[0].recv(1024)
-            except socket.timeout:
-                pass
-            if message:
                 print message
                 for reciever in connections:
-                    if reciever[1] != c[1]:
-                        reciever.send(message)
+                    #if reciever[1] != c[1]:
+                    reciever[0].send(message)
+            except socket.timeout:
+                pass
 
 
     def close(self):
-        for c in connections:
-            c[0].close()
-        sock.close()
+        sock.shutdown(socket.SHUT_RDWR)
 
     def getSocket(self):
         return sock
