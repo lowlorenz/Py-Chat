@@ -8,15 +8,10 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import NumericProperty, ReferenceListProperty,ObjectProperty,OptionProperty
 from kivy.vector import Vector
 from kivy.clock import Clock
-
 from kivy.uix.button import Button
+from kivy.uix.scatter import Scatter
 
 
-'''
-class Message(Widget):
-
-    def __init__
-'''
 
 class RightStack(StackLayout):
 
@@ -33,7 +28,15 @@ class Messenger(Widget):
 class ClientGui(App):
 
     def build(self):
-        return LeftStack()
+        m = Messenger()
+        #m.get_root_window().maximize()
+
+        l = LeftStack()
+        r = RightStack()
+
+        m.add_widget(l)
+        m.add_widget(r)
+        return m
 
 if __name__ == '__main__':
     ClientGui().run()
