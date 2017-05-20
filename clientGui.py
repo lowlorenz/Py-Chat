@@ -41,7 +41,7 @@ class Messenger(Widget):
 
         for i in range (19):
             labels.append(Label())
-            printMessages.append('')
+            printMessages.append(('',3))
 
         for l in labels:
             layout.add_widget(l)
@@ -49,22 +49,29 @@ class Messenger(Widget):
         self.add_widget(layout)
 
 
-    def pushMessage(self, m):
+    def pushMessage(self, m, author):
         if m is None:
             return
-        printMessages.append(m)
+        printMessages.append((m,author))
         while(len(printMessages) > 19):
             oldMessages.insert(0,printMessages.pop(0))
         for i in range(19):
-            labels[i].text = printMessages[i]
+            labels[i].text, color = printMessages[i]
+            if color == 0:    # einge Nachricht
+                labels[i].color = [0.8,0.4,0.2,1]
+            if color == 1:    # Nachricht von Chat
+                labels[i].color = [0.2,0.7,0.6,1]
+            if color == 2:    # Systemnachricht
+                labels[i].color = [1,1,1,1]
+
 
     def testMessages(self,dt):
         self.counter += 1
-        self.pushMessage(str(self.counter))
+        self.pushMessage(str(self.counter),0)
 
     def pushSocketInput(self,time):
         try:
-            self.pushMessage(self.cl.read())
+            self.pushMessage(self.cl.read(),1)
 
         except socket.timeout:
             pass

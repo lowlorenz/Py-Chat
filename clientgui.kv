@@ -5,13 +5,17 @@
         size: (500,30)
         pos: (100,0)
         multiline: False
+        on_text_validate:
+            message = textinput.text
+            root.cl.write(message)
+            root.pushMessage(message,0)
+            textinput.text = ""
     Button:
         text: "Submit"
         pos: (600,0)
         on_press:
             message = textinput.text
             root.cl.write(message)
-
-            root.pushMessage(message)
+            root.pushMessage(message,0)
             textinput.text = ""
         size: (100,30)
