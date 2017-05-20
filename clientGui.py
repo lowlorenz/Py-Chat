@@ -13,25 +13,33 @@ from kivy.uix.label import Label
 class Messenger(Widget):
 
     counter = 0
+    oldMessages = []
+    printMessages = []
+    labels = []
 
-    def __init__(self):
-        pass
+    def init(self):
         global layout
         layout = BoxLayout(orientation='vertical')
+        layout.size = (800,600)
+        for i in (20):
+            labels.append(Label())
+        self.add_widget(layout)
 
     def pushMessage(self, m):
-        l = Label(text = m )
-        layout.add_widget( l )
+        printMessages.append(m)
+        while(len(printMessages) > 20):
 
-    def testMessages(self):
+        layout.add_widget( Label(text = m) )
+
+    def testMessages(self,dt):
         self.counter += 1
         self.pushMessage(str(self.counter))
 
 class ClientGui(App):
 
     def build(self):
-        print "Start"
         m = Messenger()
+        m.init()
         Clock.schedule_interval(m.testMessages, 0.5)
         return m
 
