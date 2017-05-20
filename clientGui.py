@@ -1,42 +1,40 @@
+
 import kivy
 kivy.require('1.0.6') # replace with your current kivy version !
 
 from kivy.app import App
 from kivy.uix.widget import Widget
-from kivy.uix.stacklayout import StackLayout
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import NumericProperty, ReferenceListProperty,ObjectProperty,OptionProperty
-from kivy.vector import Vector
 from kivy.clock import Clock
 from kivy.uix.button import Button
-from kivy.uix.scatter import Scatter
+from kivy.uix.label import Label
 
-
-
-class RightStack(StackLayout):
-
-    pass
-
-class LeftStack(StackLayout):
-
-    pass
 
 class Messenger(Widget):
 
-    pass
+    counter = 0
+
+    def __init__(self):
+        pass
+        global layout
+        layout = BoxLayout(orientation='vertical')
+
+    def pushMessage(self, m):
+        l = Label(text = m )
+        layout.add_widget( l )
+
+    def testMessages(self):
+        self.counter += 1
+        self.pushMessage(str(self.counter))
 
 class ClientGui(App):
 
     def build(self):
+        print "Start"
         m = Messenger()
-        #m.get_root_window().maximize()
-
-        l = LeftStack()
-        r = RightStack()
-
-        m.add_widget(l)
-        m.add_widget(r)
+        Clock.schedule_interval(m.testMessages, 0.5)
         return m
+
 
 if __name__ == '__main__':
     ClientGui().run()
