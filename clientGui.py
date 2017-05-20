@@ -8,6 +8,10 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
 from kivy.uix.button import Button
 from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
+
+import client,time,socket,sys
+
 
 
 class Messenger(Widget):
@@ -17,8 +21,14 @@ class Messenger(Widget):
     printMessages = []
     labels = []
 
+    cl = client.Client(False)
 
     def init(self):
+
+        global cl
+        cl = client.Client(False)
+        cl.startClient()
+
         global layout,labels,printMessages,oldMessages,counter
         counter = 0
         oldMessages = []
@@ -26,7 +36,9 @@ class Messenger(Widget):
         labels = []
 
         layout = BoxLayout(orientation='vertical')
-        layout.size = (800,600)
+        layout.size = (700,600)
+        layout.pos = (0,30)
+
         for i in range (19):
             labels.append(Label())
             printMessages.append('')
@@ -36,9 +48,12 @@ class Messenger(Widget):
 
         self.add_widget(layout)
 
+
     def pushMessage(self, m):
+        if m is None:
+            return
         printMessages.append(m)
-        while(len(printMessages) > 20):
+        while(len(printMessages) > 19):
             oldMessages.insert(0,printMessages.pop(0))
         for i in range(19):
             labels[i].text = printMessages[i]
@@ -47,12 +62,23 @@ class Messenger(Widget):
         self.counter += 1
         self.pushMessage(str(self.counter))
 
+    def pushSocketInput(self,time):
+        try:
+            self.pushMessage(self.cl.read())
+
+        except socket.timeout:
+            pass
+
+
+    def test(self):
+        self.cl.write("test")
+
 class ClientGui(App):
 
     def build(self):
         m = Messenger()
         m.init()
-        Clock.schedule_interval(m.testMessages, 0.5)
+        Clock.schedule_interval(m.pushSocketInput, 1)
         return m
 
 

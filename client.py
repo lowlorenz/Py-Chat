@@ -6,9 +6,14 @@ import socket               # Import socket module
 
 class Client:
 
+    global sock
+    sock = None
 
     def __init__(self, changeFlag):
-        global sock,port,ip
+        global sock
+        sock = socket.socket()
+
+        global port,ip
         if changeFlag:
             ip = raw_input("Enter you IP here : ")
             port = int(raw_input("Enter you Port here : "))
@@ -16,10 +21,10 @@ class Client:
             ip = '192.168.178.32'
             port = 12345
 
-        sock = socket.socket()
 
     def startClient(self):
         sock.connect((ip,int(port)))
+        sock.settimeout(0.1)
 
     def write(self, message):
         try:
@@ -35,3 +40,4 @@ class Client:
 
     def close(self):
         sock.close()
+        print("Socket Closed !")

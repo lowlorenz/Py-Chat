@@ -1,2 +1,17 @@
 #:kivy 1.0.9
 <Messenger>:
+    TextInput:
+        id : textinput
+        size: (500,30)
+        pos: (100,0)
+        multiline: False
+    Button:
+        text: "Submit"
+        pos: (600,0)
+        on_press:
+            message = textinput.text
+            root.cl.write(message)
+
+            root.pushMessage(message)
+            textinput.text = ""
+        size: (100,30)

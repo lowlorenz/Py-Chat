@@ -18,7 +18,7 @@ class Server:
     def __init__(self, port = 12345):
         sock.bind((host, port))        # Bind to the port
         sock.listen(5)
-        sock.settimeout(0.5)
+        sock.settimeout(0.1)
 
     def acceptSock(self):
         c, addr = sock.accept()    # Establish connection with client.
