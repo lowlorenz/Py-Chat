@@ -18,7 +18,7 @@ class Client:
             ip = raw_input("Enter you IP here : ")
             port = int(raw_input("Enter you Port here : "))
         else:
-            ip = '192.168.178.32'
+            ip = '192.168.178.32'   #
             port = 12345
 
 

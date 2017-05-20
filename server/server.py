@@ -9,6 +9,7 @@ class Server:
 
     host = '192.168.178.30'     # Adress of my RaspberryPi
     host = '192.168.178.32'     # Adress of my Lubuntu Laptop
+    host = 87.123.13.204
     port = 12345                # Our standart port
     sock = socket.socket()
     connections = []
