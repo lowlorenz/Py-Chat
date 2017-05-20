@@ -17,19 +17,31 @@ class Messenger(Widget):
     printMessages = []
     labels = []
 
+
     def init(self):
-        global layout
+        global layout,labels,printMessages,oldMessages,counter
+        counter = 0
+        oldMessages = []
+        printMessages = []
+        labels = []
+
         layout = BoxLayout(orientation='vertical')
         layout.size = (800,600)
-        for i in (20):
+        for i in range (19):
             labels.append(Label())
+            printMessages.append('')
+
+        for l in labels:
+            layout.add_widget(l)
+
         self.add_widget(layout)
 
     def pushMessage(self, m):
         printMessages.append(m)
         while(len(printMessages) > 20):
-
-        layout.add_widget( Label(text = m) )
+            oldMessages.insert(0,printMessages.pop(0))
+        for i in range(19):
+            labels[i].text = printMessages[i]
 
     def testMessages(self,dt):
         self.counter += 1
