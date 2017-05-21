@@ -18,7 +18,8 @@ class Client:
             ip = raw_input("Enter you IP here : ")
             port = int(raw_input("Enter you Port here : "))
         else:
-            ip = '192.168.178.32'   #
+            ip = '192.168.178.32'   # Lubuntu
+            ip = '87.122.83.113'    # Fritz Box external
             port = 12345
 
 
