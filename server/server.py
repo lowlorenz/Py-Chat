@@ -32,17 +32,28 @@ class Server:
             print c
 
     def printMessages(self):
+        if len(connections) == 0:
+            return
         for c in connections:
             try:
+                if message is "#EXIT":
+                    c[0].close()
+                    connections.remove(c)
                 message = c[0].recv(1024)
                 print message
             except socket.timeout:
                 pass
 
     def broadcastMessages(self):
+        if len(connections) == 0:
+            return
+        print len(connections)
         for c in connections:
             try:
                 message = c[0].recv(1024)
+                if message is "#EXIT" :
+                    c[0].close()
+                    connections.remove(c)
                 print message
                 for reciever in connections:
                     if reciever is not c:

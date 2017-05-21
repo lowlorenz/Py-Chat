@@ -40,5 +40,6 @@ class Client:
             pass
 
     def close(self):
+        socket.write("#EXIT")
         sock.close()
         print("Socket Closed !")

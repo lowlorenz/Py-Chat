@@ -50,11 +50,14 @@ class Messenger(Widget):
 
 
     def pushMessage(self, m, author):
-        if m is None:
+        if m is None or m is '':
             return
+
         printMessages.append((m,author))
+
         while(len(printMessages) > 19):
             oldMessages.insert(0,printMessages.pop(0))
+
         for i in range(19):
             labels[i].text, color = printMessages[i]
             if color == 0:    # einge Nachricht
@@ -63,7 +66,6 @@ class Messenger(Widget):
                 labels[i].color = [0.2,0.7,0.6,1]
             if color == 2:    # Systemnachricht
                 labels[i].color = [1,1,1,1]
-
 
     def testMessages(self,dt):
         self.counter += 1
