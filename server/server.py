@@ -45,13 +45,10 @@ class Server:
                 pass
 
     def broadcastMessages(self):
-        if len(connections) == 0:
-            return
-        print len(connections)
         for c in connections:
             try:
                 message = c[0].recv(1024)
-                if message is "#EXIT" :
+                if len(message) == 0:
                     c[0].close()
                     connections.remove(c)
                 print message
