@@ -49,6 +49,8 @@ class Server:
             try:
                 message = c[0].recv(1024)
                 if len(message) == 0:
+                    print "disconected : "
+                    print c
                     c[0].close()
                     connections.remove(c)
                 print message
