@@ -36,7 +36,9 @@ class Server:
             return
         for c in connections:
             try:
-                if message is "#EXIT":
+                if len(message) == 0:
+                    print "disconected : "
+                    print c
                     c[0].close()
                     connections.remove(c)
                 message = c[0].recv(1024)
