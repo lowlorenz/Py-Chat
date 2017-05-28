@@ -4,6 +4,6 @@ pyChat
 2. install kivy:
       instructions - https://kivy.org/#home
 3. interpret your client:
-'''
+```
   python clientGui.py
-'''
+```
