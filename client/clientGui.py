@@ -9,25 +9,18 @@ from kivy.clock import Clock
 from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.uix.label import Label
+from kivy.uix.bubble import Bubble
 from kivy.uix.textinput import TextInput
+from kivy.core.window import Window
 
 import client,time,socket,sys
-
-class Bubble(Widget):
-    l = Label()
-    i = Image()
-
-    def setColor(self, c):
-        i.color = c
-
-    def setText(self, m):
-        l.text = m
 
 class Messenger(Widget):
 
     counter = 0
     oldMessages = []
     printMessages = []
+    bubbles = []
     labels = []
 
     cl = client.Client(False)
@@ -38,27 +31,26 @@ class Messenger(Widget):
         cl = client.Client(False)
         cl.startClient()
 
-        global layout,labels,printMessages,oldMessages,counter
+        global layout,bubbles,printMessages,oldMessages,counter,labels
         counter = 0
         oldMessages = []
         printMessages = []
+        bubbles = []
         labels = []
 
         layout = BoxLayout(orientation='vertical')
         layout.size = (700,600)
         layout.pos = (0,30)
+        layout.spacing = 5
 
         for i in range (19):
             labels.append(Label())
+            bubbles.append(Bubble())
+            bubbles[i].add_widget(labels[i])
             printMessages.append(('',2))
 
-        for l in labels:
-            layout.add_widget(l)
-            l.add_widget( Image(
-                            pos=(l.center_x,
-                                 l.center_y),
-                            color=(1,0,0))
-                        )
+        for b in bubbles:
+            layout.add_widget(b)
 
 
         self.add_widget(layout)
@@ -74,13 +66,26 @@ class Messenger(Widget):
             oldMessages.insert(0,printMessages.pop(0))
 
         for i in range(19):
-            labels[i].text, color = printMessages[i]
+            text, color = printMessages[i]
+
+            labels[i].text = text
+            labels[i].texture_update()
+            labels[i].size = labels[i].texture_size
+
             if color == 0:    # einge Nachricht
-                labels[i].color = [0.8,0.4,0.2,1]
+                bubbles[i].background_image = 'pics/ownMessage.png'
+                bubbles[i].arrow_image = 'pics/ownMessageArrow.png'
+                bubbles[i].arrow_pos = 'left_bottom'
+                bubbles[i].show_arrow = true
+
             if color == 1:    # Nachricht von Chat
-                labels[i].color = [0.2,0.7,0.6,1]
+                bubbles[i].background_image = 'pics/clientMessage.png'
+                bubbles[i].arrow_image = 'pics/clientMessageArrow.png'
+                bubbles[i].arrow_pos = 'right_bottom'
+                bubbles[i].show_arrow = true
+
             if color == 2:    # Systemnachricht
-                labels[i].color = [1,1,1,1]
+                bubbles[i].show_arrow = false
 
     def testMessages(self,dt):
         self.counter += 1
@@ -100,6 +105,7 @@ class Messenger(Widget):
 class ClientGui(App):
 
     def build(self):
+        Window.clearcolor = (0.6, 0.6, 0.6, 0.5)
         m = Messenger()
         m.init()
         Clock.schedule_interval(m.pushSocketInput, 1)
