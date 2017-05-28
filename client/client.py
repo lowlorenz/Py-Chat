@@ -1,6 +1,5 @@
 #!/usr/bin/python           # This is client.py file
-
-
+import sys
 import socket               # Import socket module
 
 
@@ -23,6 +22,18 @@ class Client:
 
             port = 12345
 
+        global userName
+
+        try:
+            configFile = open("config.txt")
+            config = configFile.read().split(',')
+            userName = config[0].replace("Username :","")
+            configFile.close()
+        except IOError:
+            blank = open("config.txt",'a')
+            blank.write("Username : Blank,")
+            blank.close()
+            userName = "Blank"
 
     def startClient(self):
         sock.connect((ip,int(port)))
@@ -30,7 +41,7 @@ class Client:
 
     def write(self, message):
         try:
-            sock.send(message)
+            sock.send(userName + " : " + message)
         except socket.timeout:
             pass
 
@@ -41,6 +52,5 @@ class Client:
             pass
 
     def close(self):
-        socket.write("#EXIT")
         sock.close()
         print("Socket Closed !")

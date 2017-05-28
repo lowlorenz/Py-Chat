@@ -76,16 +76,16 @@ class Messenger(Widget):
                 bubbles[i].background_image = 'pics/ownMessage.png'
                 bubbles[i].arrow_image = 'pics/ownMessageArrow.png'
                 bubbles[i].arrow_pos = 'left_bottom'
-                bubbles[i].show_arrow = true
+                bubbles[i].show_arrow = True
 
             if color == 1:    # Nachricht von Chat
                 bubbles[i].background_image = 'pics/clientMessage.png'
                 bubbles[i].arrow_image = 'pics/clientMessageArrow.png'
                 bubbles[i].arrow_pos = 'right_bottom'
-                bubbles[i].show_arrow = true
+                bubbles[i].show_arrow = True
 
             if color == 2:    # Systemnachricht
-                bubbles[i].show_arrow = false
+                bubbles[i].show_arrow = False
 
     def testMessages(self,dt):
         self.counter += 1
